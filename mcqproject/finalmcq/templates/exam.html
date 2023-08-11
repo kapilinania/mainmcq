@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exam</title>
+    <style>
+
+        table, tr,td,th{
+        padding:20px;
+        border:1px solid black;
+
+        }
+    </style>
+</head>
+<body>
+<a href="{% url 'delete_data' %}">Delete All Data</a>
+<a href="{% url 'network_info' %}">Home Page</a>
+    <h1>Exam Page</h1>
+    <table cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>S.no</th>
+                <th>User IP</th>
+                <th>MAC Address</th>
+                <th>CPU Count</th>
+                <th>Total Memory</th>
+                <th>Available Memory</th>
+                <th>Used Memory</th>
+                <th>Free Memory</th>
+                <th>Bytes Sent</th>
+                <th>Bytes Received</th>
+                <th>Packets Sent</th>
+                <th>Packets Received</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in all_network_data %}
+            <tr>
+                <td>{{data.id}}</td>
+                <td>{{ data.user_ip }}</td>
+                <td>{{ data.mac_address }}</td>
+                <td>{{ data.cpu_count }}</td>
+                <td>{{ data.total_memory }}</td>
+                <td>{{ data.available_memory }}</td>
+                <td>{{ data.used_memory }}</td>
+                <td>{{ data.free_memory }}</td>
+                <td>{{ data.bytes_sent }}</td>
+                <td>{{ data.bytes_received }}</td>
+                <td>{{ data.packets_sent }}</td>
+                <td>{{ data.packets_received }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Network Information</title>
+    <style>
+        /* Apply basic styling to the entire page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Style the header */
+        h1 {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Style the table */
+        .network-table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            border: 1px solid #ddd;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .network-table th,
+        .network-table td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        .network-table th {
+            background-color: #f2f2f2;
+        }
+
+        /* Add hover effect to table rows */
+        .network-table tr:hover {
+            background-color: #f5f5f5;
+        }
+        a{
+        text-decoration:none;
+        color:black;
+        background-color:pink;
+        padding:10px;
+        border-radius:10px;
+        }
+        table{
+<!--        display:none;-->
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>Network Information</h1>
+
+  <form action="{% url 'start_exam' %}" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="user_ip" value="{{ user_ip }}">
+    <input type="hidden" name="mac_address" value="{{ mac_address }}">
+    <input type="hidden" name="cpu_count" value="{{ cpu_count }}">
+     <input type="hidden" name="total_memory" value="{{ memory_info.total }}">
+    <input type="hidden" name="available_memory" value="{{ memory_info.available }}">
+    <input type="hidden" name="memory_usage" value="{ memory_info.percent }}">
+    <input type="hidden" name="used_memory" value="{{ memory_info.used }}">
+    <input type="hidden" name="free_memory" value="{{ memory_info.free }}">
+      <input type="hidden" name="bytes_sent" value="{{ net_io.bytes_sent }}">
+    <input type="hidden" name="bytes_received" value="{{ net_io.bytes_recv }}">
+    <input type="hidden" name="packets_sent" value="{{ net_io.packets_sent }}">
+    <input type="hidden" name="packets_received" value="{{ net_io.packets_recv }}">
+    <button type="submit" class="btn btn-primary">Start Your Exam</button>
+</form>
+
+
+
+    <table class="network-table">
+        <tr>
+            <th>Category</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td>User IP Address</td>
+            <td>{{ user_ip }}</td>
+        </tr>
+        <tr>
+            <td>MAC Address</td>
+            <td>{{ mac_address }}</td>
+        </tr>
+        <tr>
+            <td>CPU Count</td>
+            <td>{{ cpu_count }}</td>
+        </tr>
+        <tr>
+            <td>Memory Info</td>
+            <td>
+                Total Memory: {{ memory_info.total }}<br>
+                Available Memory: {{ memory_info.available }}<br>
+                Memory Usage: {{ memory_info.percent }}%<br>
+                Used Memory: {{ memory_info.used }}<br>
+                Free Memory: {{ memory_info.free }}<br>
+            </td>
+        </tr>
+        <tr>
+            <td>Disk Partitions</td>
+            <td>
+                <ul class="disk-partitions">
+                    {% for partition in disk_partitions %}
+                    <li>{{ partition.mountpoint }} ({{ partition.fstype }})</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Network I/O</td>
+            <td>
+                Bytes Sent: {{ net_io.bytes_sent }}<br>
+                Bytes Received: {{ net_io.bytes_recv }}<br>
+                Packets Sent: {{ net_io.packets_sent }}<br>
+                Packets Received: {{ net_io.packets_recv }}<br>
+                Errors In: {{ net_io.errin }}<br>
+                Errors Out: {{ net_io.errout }}<br>
+                Drops In: {{ net_io.dropin }}<br>
+                Drops Out: {{ net_io.dropout }}<br>
+            </td>
+        </tr>
+        <tr>
+            <td>Network Connections</td>
+            <td>
+                <ul class="network-connections">
+                    {% for connection in net_connections %}
+                    <li>{{ connection.status }} - {{ connection.laddr.ip }}:{{ connection.laddr.port }} to {{
+                        connection.raddr.ip }}:{{ connection.raddr.port }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        <tr>
+            <td>Internet Provider</td>
+            <td>{{ isp_name }}</td>
+        </tr>
+    </table>
+
+
+
+</body>
+
+
+
+</html>
